@@ -1,3 +1,5 @@
+import subprocess
+
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import ContextTypes, CommandHandler, CallbackQueryHandler
 
@@ -14,7 +16,7 @@ async def _on_shutdown(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
 
 async def _on_confirm_shutdown_button(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     await context.bot.sendMessage(chat_id=update.effective_chat.id, text="Shutting down...")
-    # subprocess.call('sudo shutdown -h now', shell=True)
+    subprocess.call("sudo shutdown -h now", shell=True)
     await update.callback_query.answer()
 
 
