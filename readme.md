@@ -37,5 +37,6 @@ Control you Raspberry PI device via Telegram bot deployed on it
 6. Activate service:
    ```shell
    sudo systemctl daemon-reload
+   sudo systemctl start telegram-control-bot.service
    sudo systemctl enable telegram-control-bot.service
    ```
