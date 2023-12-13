@@ -6,7 +6,7 @@ cpu_temperature = None
 try:
     cpu_temperature = CPUTemperature()
 except GPIOZeroError:
-    print("Unable to detect temperature sensor. Are you rinning the bot on Raspberry Pi?")
+    print("Unable to detect temperature sensor. Are you running the bot on Raspberry Pi?")
 
 
 async def on_cpu_temp(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
