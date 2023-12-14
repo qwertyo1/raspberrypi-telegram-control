@@ -1,7 +1,10 @@
 import subprocess
+from typing import List
 
-from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
-from telegram.ext import ContextTypes, CommandHandler, CallbackQueryHandler
+from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup, BotCommand
+from telegram.ext import ContextTypes, CommandHandler, CallbackQueryHandler, BaseHandler
+
+from commands.base_command_handler import BaseCommandHandler
 
 
 async def _on_shutdown(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
@@ -20,7 +23,14 @@ async def _on_confirm_shutdown_button(update: Update, context: ContextTypes.DEFA
     await update.callback_query.answer()
 
 
-handlers = [
-    CommandHandler("shutdown", _on_shutdown),
-    CallbackQueryHandler(_on_confirm_shutdown_button, "confirm_shutdown"),
-]
+class ShutdownCommandHandler(BaseCommandHandler):
+    command = "shutdown"
+
+    def get_commands(self) -> List[BotCommand]:
+        return [BotCommand(self.command, "Shutdown")]
+
+    def get_handlers(self) -> List[BaseHandler]:
+        return [
+            CommandHandler("shutdown", _on_shutdown),
+            CallbackQueryHandler(_on_confirm_shutdown_button, "confirm_shutdown"),
+        ]

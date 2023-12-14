@@ -1,6 +1,10 @@
+from typing import List
+
 from gpiozero import GPIOZeroError, CPUTemperature
-from telegram import Update
-from telegram.ext import CommandHandler, ContextTypes
+from telegram import Update, BotCommand
+from telegram.ext import CommandHandler, ContextTypes, BaseHandler
+
+from commands.base_command_handler import BaseCommandHandler
 
 cpu_temperature = None
 try:
@@ -18,4 +22,11 @@ async def on_cpu_temp(update: Update, context: ContextTypes.DEFAULT_TYPE) -> Non
     await context.bot.sendMessage(chat_id=update.effective_chat.id, text=text)
 
 
-handlers = [CommandHandler("cputemp", on_cpu_temp)]
+class TemperatureCommandHandler(BaseCommandHandler):
+    command = "cputemp"
+
+    def get_commands(self) -> List[BotCommand]:
+        return [BotCommand(self.command, "CPU temperature")]
+
+    def get_handlers(self) -> List[BaseHandler]:
+        return [CommandHandler("cputemp", on_cpu_temp)]
