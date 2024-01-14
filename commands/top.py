@@ -27,7 +27,7 @@ def _handle_top_line(line: str) -> str:
     return " ".join([time, uptime]) + "\n"
 
 
-line_handlers = {0: _handle_top_line}
+line_handlers = {0: _handle_top_line, 6: lambda line: ""}
 
 
 async def _on_top(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
@@ -42,12 +42,9 @@ async def _on_top(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     table.field_names = ["PID", "USER", "%CPU", "%MEM", "CMD"]
     line_number = 0
     for line in result.stdout.readlines():
-        if line_number < 6:
+        if line_number < 7:
             line_handler = line_handlers.get(line_number)
             text += line_handler(line) if line_handler is not None else line
-            line_number += 1
-            continue
-        if line_number == 6:
             line_number += 1
             continue
         pid, user, pr, ni, virt, res, shr, s, cpu, mem, time, *command = line.split()
