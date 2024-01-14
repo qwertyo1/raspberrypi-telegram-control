@@ -13,7 +13,7 @@ except GPIOZeroError:
     print("Unable to detect temperature sensor. Are you running the bot on Raspberry Pi?")
 
 
-async def on_cpu_temp(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+async def _on_cpu_temp(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     text = (
         f"{cpu_temperature.temperature}C"
         if cpu_temperature is not None and cpu_temperature.temperature
@@ -26,7 +26,11 @@ class TemperatureCommandHandler(BaseCommandHandler):
     command = "cputemp"
 
     def get_commands(self) -> List[BotCommand]:
+        if cpu_temperature is None:
+            return []
         return [BotCommand(self.command, "CPU temperature")]
 
     def get_handlers(self) -> List[BaseHandler]:
-        return [CommandHandler("cputemp", on_cpu_temp)]
+        if cpu_temperature is None:
+            return []
+        return [CommandHandler("cputemp", _on_cpu_temp)]

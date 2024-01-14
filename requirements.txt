@@ -1,3 +1,4 @@
 python-telegram-bot==20.6
 gpiozero==2.0
 pydantic-settings==2.1.0
+prettytable==3.9.0

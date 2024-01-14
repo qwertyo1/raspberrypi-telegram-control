@@ -5,11 +5,17 @@ from telegram.ext import ApplicationBuilder, Application
 from commands.reboot import RebootCommandHandler
 from commands.shutdown import ShutdownCommandHandler
 from commands.temperature import TemperatureCommandHandler
+from commands.top import TopCommandHandler
 from settings import settings
 
 now = datetime.datetime.now()
 
-handlers = [RebootCommandHandler(), ShutdownCommandHandler(), TemperatureCommandHandler()]
+handlers = [
+    RebootCommandHandler(),
+    ShutdownCommandHandler(),
+    TemperatureCommandHandler(),
+    TopCommandHandler(),
+]
 
 
 async def post_init(application: Application) -> None:
