@@ -26,7 +26,11 @@ class TemperatureCommandHandler(BaseCommandHandler):
     command = "cputemp"
 
     def get_commands(self) -> List[BotCommand]:
+        if cpu_temperature is None:
+            return []
         return [BotCommand(self.command, "CPU temperature")]
 
     def get_handlers(self) -> List[BaseHandler]:
+        if cpu_temperature is None:
+            return []
         return [CommandHandler("cputemp", _on_cpu_temp)]
